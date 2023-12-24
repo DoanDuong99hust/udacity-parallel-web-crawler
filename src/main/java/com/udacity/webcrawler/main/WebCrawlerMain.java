@@ -1,5 +1,6 @@
 package com.udacity.webcrawler.main;
 
+import com.google.common.base.Strings;
 import com.google.inject.Guice;
 import com.udacity.webcrawler.WebCrawler;
 import com.udacity.webcrawler.WebCrawlerModule;
@@ -11,9 +12,7 @@ import com.udacity.webcrawler.profiler.Profiler;
 import com.udacity.webcrawler.profiler.ProfilerModule;
 
 import javax.inject.Inject;
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -37,7 +36,21 @@ public final class WebCrawlerMain {
     CrawlResult result = crawler.crawl(config.getStartPages());
     CrawlResultWriter resultWriter = new CrawlResultWriter(result);
     // TODO: Write the crawl results to a JSON file (or System.out if the file name is empty)
+    String resultPath = config.getResultPath();
+    if (!Strings.isNullOrEmpty(resultPath)) {
+      Path rsPath = new File(resultPath).toPath();
+      resultWriter.write(rsPath);
+    } else {
+      System.out.println(resultPath);
+    }
     // TODO: Write the profile data to a text file (or System.out if the file name is empty)
+    String profileOutputPath = config.getProfileOutputPath();
+    if (!Strings.isNullOrEmpty(profileOutputPath)) {
+      Path prOutputPath = new File(profileOutputPath).toPath();
+      resultWriter.write(prOutputPath);
+    } else {
+      System.out.println(resultPath);
+    }
   }
 
   public static void main(String[] args) throws Exception {
