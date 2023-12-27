@@ -13,7 +13,10 @@ import com.udacity.webcrawler.profiler.ProfilerModule;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public final class WebCrawlerMain {
@@ -41,7 +44,8 @@ public final class WebCrawlerMain {
       Path rsPath = new File(resultPath).toPath();
       resultWriter.write(rsPath);
     } else {
-      System.out.println(resultPath);
+      Writer outputWriter = new OutputStreamWriter(System.out);
+      resultWriter.write(outputWriter);
     }
     // TODO: Write the profile data to a text file (or System.out if the file name is empty)
     String profileOutputPath = config.getProfileOutputPath();
@@ -49,7 +53,9 @@ public final class WebCrawlerMain {
       Path prOutputPath = new File(profileOutputPath).toPath();
       resultWriter.write(prOutputPath);
     } else {
-      System.out.println(resultPath);
+      Writer outputWriter = new OutputStreamWriter(System.out);
+      profiler.writeData(outputWriter);
+      outputWriter.flush();
     }
   }
 
