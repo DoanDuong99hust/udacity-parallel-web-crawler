@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.stream.Stream;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -22,11 +21,10 @@ public final class WebCrawlerTest {
   @Inject
   private WebCrawler crawler;
 
-  private static final String DATA_DIR = System.getProperty("testDataDir");
+  private static final String DATA_DIR = System.getProperty("testDataDir", "src/test/data");
 
   static Stream<Class<?>> provideTestParameters() throws Exception {
-    Properties properties = System.getProperties();
-    String[] names = System.getProperty("crawlerImplementations").split("\\s+");
+    String[] names = System.getProperty("crawlerImplementations","com.udacity.webcrawler.ParallelWebCrawler com.udacity.webcrawler.SequentialWebCrawler").split("\\s+");
     List<Class<?>> classes = new ArrayList<>();
     for (String name : names) {
       classes.add(Class.forName(name.strip()));
